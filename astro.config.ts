@@ -67,6 +67,9 @@ export default defineConfig({
       external: ["node:fs", "node:path", "node:url", "node:module"],
       noExternal: ["@astrojs/cloudflare"],
     },
+    optimizeDeps: {
+      exclude: ["node:fs", "node:path", "node:url"],
+    },
   },
   fonts: [
     {
