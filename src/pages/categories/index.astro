@@ -31,12 +31,12 @@ const locale = Astro.currentLocale ?? config.site.lang;
           {categories.map(({ category, categoryName, count }) => (
             <a
               href={getRelativeLocaleUrl(locale, `categories/${category}`)}
-              class="group border-border bg-muted/20 hover:border-accent hover:bg-muted/40 flex items-center justify-between rounded-xl border p-4 transition-all duration-200"
+              class="group border-border bg-muted/20 hover:border-accent hover:bg-muted/40 flex items-center justify-between gap-3 rounded-xl border p-4 transition-all duration-200"
             >
-              <div class="flex items-center gap-3">
+              <div class="flex items-center gap-2 min-w-0">
                 <CategoryBadge category={categoryName} clickable={false} size="md" />
               </div>
-              <span class="text-muted-foreground group-hover:text-foreground text-sm font-medium">
+              <span class="text-muted-foreground group-hover:text-foreground shrink-0 whitespace-nowrap text-sm font-medium">
                 {count} {count === 1 ? "story" : "stories"}
               </span>
             </a>

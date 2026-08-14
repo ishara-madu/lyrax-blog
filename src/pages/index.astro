@@ -183,11 +183,15 @@ const popularCategories = [
               {spotlightPost.data.description}
             </p>
 
-            <div class="mt-4 flex items-center justify-between border-t border-border/60 pt-4">
-              <Datetime
-                pubDatetime={spotlightPost.data.pubDatetime}
-                modDatetime={spotlightPost.data.modDatetime}
-              />
+            <div class="mt-4 flex flex-wrap items-center justify-between gap-2 border-t border-border/60 pt-4">
+              <div class="flex items-center gap-2 text-xs text-muted-foreground">
+                <span class="font-semibold text-foreground">By {spotlightPost.data.author || config.site.author}</span>
+                <span class="opacity-40">•</span>
+                <Datetime
+                  pubDatetime={spotlightPost.data.pubDatetime}
+                  modDatetime={spotlightPost.data.modDatetime}
+                />
+              </div>
               <a
                 href={getPostUrl(spotlightPost.id, spotlightPost.filePath, locale)}
                 class="text-accent inline-flex items-center gap-1 text-sm font-bold hover:underline"

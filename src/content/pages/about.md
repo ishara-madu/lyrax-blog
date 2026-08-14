@@ -17,6 +17,11 @@ In today’s fast-moving digital world, trends explode and evolve within hours. 
 - **💰 Crypto & Finance**: Emerging market trends, fintech updates, and economy news simplified.
 - **⚡ Viral Trends**: Stories capturing social media, memes, debates, and breaking internet moments.
 
+## Editorial & Founder
+
+LyraX is founded and curated by **Ishara M.** ([ishara-madu.github.io](https://ishara-madu.github.io/)), dedicated to delivering fast, insightful, and real-time coverage of breaking internet trends, AI breakthroughs, and digital culture.
+
 ## Connect With Us
 
 Have a trending tip or want to collaborate? Reach out to us at [contact@lyrax.live](mailto:contact@lyrax.live) or follow us across social channels.
+

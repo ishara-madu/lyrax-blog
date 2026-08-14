@@ -1,0 +1,133 @@
+---
+import { getEntry } from "astro:content";
+import Layout from "@/layouts/Layout.astro";
+import Header from "@/components/Header.astro";
+import Breadcrumb from "@/components/Breadcrumb.astro";
+import Main from "@/components/Main.astro";
+import Footer from "@/components/Footer.astro";
+import config from "@/config";
+
+const faqEntry = await getEntry("pages", "faq");
+const pageTitle = faqEntry?.data.title ?? "Frequently Asked Questions (FAQ)";
+const pageDesc =
+  faqEntry?.data.description ??
+  "Find answers to common questions about LyraX, editorial standards, and real-time coverage.";
+
+const faqList = [
+  {
+    question: "What is LyraX?",
+    answer:
+      "LyraX is a modern real-time publication covering viral digital trends, artificial intelligence breakthroughs, consumer technology, pop culture sensations, and emerging finance/crypto movements.",
+  },
+  {
+    question: "How frequently is new content published?",
+    answer:
+      "We track trends 24/7 and publish stories throughout the day as significant technological breakthroughs, social conversations, and global developments unfold.",
+  },
+  {
+    question: "How does LyraX verify news and avoid misinformation?",
+    answer:
+      "Our editorial team rigorously cross-verifies claims with primary sources, official press statements, research papers, and technical documentation before publishing to ensure high-accuracy coverage.",
+  },
+  {
+    question: "Who runs and edits LyraX?",
+    answer:
+      "LyraX is founded and curated by Ishara M. (https://ishara-madu.github.io/), supported by contributing researchers focusing on AI, technology, and culture.",
+  },
+  {
+    question: "Can I submit a trending story or collaborate with LyraX?",
+    answer:
+      "Yes! We love community tips and investigative leads. You can email our editorial desk directly at contact@lyrax.live or reach out via our social channels.",
+  },
+  {
+    question: "Is LyraX content free to access?",
+    answer:
+      "Yes, 100% of our articles, guides, and trend breakdowns are free to access without any subscription or paywall barriers.",
+  },
+  {
+    question: "How can I stay updated with the latest trending stories?",
+    answer:
+      "You can follow our updates on X (@LyraXLive), Telegram (t.me/LyraXLive), Facebook, or subscribe to our official RSS feed at /rss.xml.",
+  },
+];
+
+const siteUrl = config.site.url.replace(/\/+$/, "");
+const faqSchema = {
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  mainEntity: faqList.map(item => ({
+    "@type": "Question",
+    name: item.question,
+    acceptedAnswer: {
+      "@type": "Answer",
+      text: item.answer,
+    },
+  })),
+};
+---
+
+<Layout
+  title={`${pageTitle} | ${config.site.title}`}
+  description={pageDesc}
+  canonicalURL={`${siteUrl}/faq/`}
+>
+  <Fragment slot="head">
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(faqSchema)}
+    />
+  </Fragment>
+
+  <Header />
+
+  <Breadcrumb />
+
+  <Main {pageTitle} {pageDesc}>
+    <div class="mx-auto max-w-3xl space-y-4 pt-4">
+      {
+        faqList.map(({ question, answer }, index) => (
+          <details
+            class="group rounded-2xl border border-border bg-muted/20 p-5 transition-all duration-200 hover:border-accent/40 hover:bg-muted/30 open:border-accent/50 open:bg-muted/40"
+            open={index === 0}
+          >
+            <summary class="flex cursor-pointer list-none items-center justify-between font-bold text-foreground sm:text-lg focus-outline">
+              <span class="pr-4">{question}</span>
+              <span class="flex size-7 shrink-0 items-center justify-center rounded-full bg-accent/10 text-accent transition-transform duration-300 group-open:rotate-180">
+                <svg
+                  class="size-4"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="2.5"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <polyline points="6 9 12 15 18 9" />
+                </svg>
+              </span>
+            </summary>
+            <div class="mt-3 text-muted-foreground leading-relaxed text-sm sm:text-base border-t border-border/40 pt-3">
+              <p>{answer}</p>
+            </div>
+          </details>
+        ))
+      }
+
+      <div class="mt-10 rounded-2xl border border-dashed border-border p-6 text-center bg-muted/10">
+        <h3 class="text-lg font-bold text-foreground">Still have a question?</h3>
+        <p class="text-muted-foreground text-sm mt-1">
+          Feel free to reach out to our team directly.
+        </p>
+        <a
+          href="mailto:contact@lyrax.live"
+          class="text-accent hover:underline font-semibold text-sm inline-flex items-center gap-1.5 mt-3"
+        >
+          <span>Send us an email at contact@lyrax.live</span> →
+        </a>
+      </div>
+    </div>
+  </Main>
+
+  <Footer />
+</Layout>

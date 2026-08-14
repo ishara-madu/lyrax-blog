@@ -6,8 +6,9 @@ export default defineAstroPaperConfig({
     title: "LyraX",
     description:
       "LyraX — Real-time trending news, viral stories, tech breakthroughs, and pop culture insights.",
-    author: "LyraX Editorial",
-    profile: "https://lyrax.live/",
+    author: "Ishara M.",
+    authorFull: "Ishara Madushanka",
+    profile: "https://ishara-madu.github.io/",
     ogImage: "default-og.jpg",
     lang: "en",
     timezone: "UTC",

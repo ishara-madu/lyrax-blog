@@ -38,11 +38,18 @@ const rssHref = getRelativeLocaleUrl(
 >
   <head>
     <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <link rel="icon" type="image/svg+xml" href={getAssetPath("favicon.svg")} />
-    <link rel="icon" href={getAssetPath("favicon.ico")} />
+    <!-- Favicon & PWA Icons -->
+    <link rel="icon" type="image/x-icon" href={getAssetPath("favicon.ico")} />
+    <link rel="icon" type="image/png" sizes="32x32" href={getAssetPath("favicon-32x32.png")} />
+    <link rel="icon" type="image/png" sizes="16x16" href={getAssetPath("favicon-16x16.png")} />
+    <link rel="apple-touch-icon" sizes="180x180" href={getAssetPath("apple-touch-icon.png")} />
+    <link rel="manifest" href={getAssetPath("site.webmanifest")} />
     <link rel="canonical" href={canonicalURL} />
     <meta name="generator" content={Astro.generator} />
+    <meta name="mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-title" content={site.title} />
+    <meta name="application-name" content={site.title} />
 
     <!-- Font -->
     <Font
@@ -54,7 +61,7 @@ const rssHref = getRelativeLocaleUrl(
     <title>{title}</title>
     <meta name="title" content={title} />
     <meta name="description" content={description} />
-    <meta name="author" content={site.author} />
+    <meta name="author" content={site.authorFull ?? site.author} />
     <link rel="sitemap" href={getAssetPath("sitemap-index.xml")} />
 
     <!-- Open Graph -->

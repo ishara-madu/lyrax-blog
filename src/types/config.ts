@@ -5,8 +5,10 @@ interface SiteConfig {
   title: string;
   /** Short description used in SEO meta and RSS feed */
   description: string;
-  /** Default post author name */
+  /** Default post author name (shown in UI, e.g. "Ishara M.") */
   author: string;
+  /** Full author name for SEO/Schema.org/bots, e.g. "Ishara Madushanka" */
+  authorFull?: string;
   /** Author profile URL (used in structured data) */
   profile?: string;
   /** Fallback OG image filename in /public, e.g. "og.jpg" */
@@ -115,7 +117,7 @@ type ResolvedSiteConfig = Required<
     | "ogImage"
   >
 > &
-  Pick<SiteConfig, "profile" | "googleVerification">;
+  Pick<SiteConfig, "profile" | "authorFull" | "googleVerification">;
 
 export interface ResolvedAstroPaperConfig {
   site: ResolvedSiteConfig;
