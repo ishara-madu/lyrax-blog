@@ -9,6 +9,7 @@
     "dev": "astro dev",
     "cms:proxy": "decap-server",
     "build": "astro check && astro build && pagefind --site dist && cp -r dist/pagefind public/",
+    "deploy": "pnpm run build && npx wrangler pages deploy dist --project-name=lyrax",
     "preview": "astro preview",
     "sync": "astro sync",
     "astro": "astro",
@@ -47,6 +48,7 @@
     "prettier": "3.9.3",
     "prettier-plugin-astro": "0.14.1",
     "prettier-plugin-tailwindcss": "^0.8.0",
-    "typescript": "^6.0.3"
+    "typescript": "^6.0.3",
+    "wrangler": "^4.122.0"
   }
 }
