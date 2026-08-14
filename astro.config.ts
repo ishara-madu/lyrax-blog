@@ -63,6 +63,10 @@ export default defineConfig({
   },
   vite: {
     plugins: [tailwindcss()],
+    ssr: {
+      external: ["node:fs", "node:path", "node:url", "node:module"],
+      noExternal: ["@astrojs/cloudflare"],
+    },
   },
   fonts: [
     {
