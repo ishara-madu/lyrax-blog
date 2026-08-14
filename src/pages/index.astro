@@ -44,9 +44,65 @@ const popularCategories = [
   { name: "Finance", slug: "finance" },
   { name: "Viral", slug: "viral" },
 ];
+
+const siteUrl = config.site.url.replace(/\/+$/, "");
+
+const homepageSchema = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "WebSite",
+      "@id": `${siteUrl}/#website`,
+      url: `${siteUrl}/`,
+      name: config.site.title,
+      description: config.site.description,
+      publisher: {
+        "@id": `${siteUrl}/#organization`,
+      },
+      potentialAction: {
+        "@type": "SearchAction",
+        target: {
+          "@type": "EntryPoint",
+          urlTemplate: `${siteUrl}/search?q={search_term_string}`,
+        },
+        "query-input": "required name=search_term_string",
+      },
+      inLanguage: config.site.lang ?? "en",
+    },
+    {
+      "@type": "NewsMediaOrganization",
+      "@id": `${siteUrl}/#organization`,
+      name: config.site.title,
+      url: `${siteUrl}/`,
+      logo: {
+        "@type": "ImageObject",
+        url: new URL("default-og.jpg", config.site.url).href,
+      },
+      sameAs: [
+        "https://x.com/LyraXLive",
+        "https://facebook.com/LyraXLive",
+        "https://t.me/LyraXLive",
+      ],
+      founder: {
+        "@type": "Person",
+        name: config.site.authorFull ?? "Ishara Madushanka",
+        alternateName: config.site.author,
+        url: config.site.profile ?? "https://ishara-madu.github.io/",
+      },
+    },
+  ],
+};
 ---
 
 <Layout title={`${config.site.title} | Trend Jacking, Viral Stories & Real-Time News`}>
+  <Fragment slot="head">
+    <script
+      type="application/ld+json"
+      is:inline
+      set:html={JSON.stringify(homepageSchema)}
+    />
+  </Fragment>
+
   <Header />
   <main
     id="main-content"

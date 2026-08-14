@@ -1,12 +1,15 @@
 {
+  "id": "/",
   "name": "LyraX — Real-time Trending News & Viral Stories",
   "short_name": "LyraX",
   "description": "LyraX — Real-time trending news, viral stories, tech breakthroughs, and pop culture insights.",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
   "background_color": "#0f172a",
   "theme_color": "#0f172a",
   "orientation": "portrait-primary",
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "/android-chrome-192x192.png",
@@ -23,6 +26,36 @@
       "sizes": "512x512",
       "type": "image/png",
       "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Trending Stories",
+      "short_name": "Trending",
+      "description": "View #1 trending and viral stories",
+      "url": "/",
+      "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Explore Categories",
+      "short_name": "Categories",
+      "description": "Browse news by topic",
+      "url": "/categories",
+      "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "AI Innovations",
+      "short_name": "AI",
+      "description": "Next-gen AI models and autonomous agents",
+      "url": "/categories/ai",
+      "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192" }]
+    },
+    {
+      "name": "Search Stories",
+      "short_name": "Search",
+      "description": "Search topics and stories on LyraX",
+      "url": "/search",
+      "icons": [{ "src": "/android-chrome-192x192.png", "sizes": "192x192" }]
     }
   ],
   "categories": ["news", "entertainment", "technology", "finance"]
