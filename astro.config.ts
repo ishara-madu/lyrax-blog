@@ -22,7 +22,14 @@ import config from "./astro-paper.config";
 
 export default defineConfig({
   output: "static",
-  adapter: cloudflare(),
+  adapter: cloudflare({
+    imageService: "cloudflare",
+    // ⚠️ අලුතින් මෙම කොටස ඇතුළත් කරන්න
+    platformProxy: {
+      experimentalJsonConfig: true,
+      persist: true
+    }
+  }),
   site: config.site.url,
   image: {
     remotePatterns: [{ protocol: "https", hostname: "res.cloudinary.com" }],
