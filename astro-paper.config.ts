@@ -31,10 +31,13 @@ export default defineAstroPaperConfig({
     search: "pagefind",
   },
   socials: [
-    { name: "x",        url: "https://x.com/LyraXLive" },
-    { name: "facebook", url: "https://facebook.com/LyraXLive" },
-    { name: "telegram", url: "https://t.me/LyraXLive" },
-    { name: "mail",     url: "mailto:contact@lyrax.live" },
+    { name: "github", url: "https://github.com/ishara-madu/lyrax-blog" },
+    { name: "mail", url: "mailto:contact@lyrax.live" },
+    // Uncomment and add your links when social profiles are created:
+    // { name: "x",        url: "https://x.com/LyraXLive" },
+    // { name: "facebook", url: "https://facebook.com/LyraXLive" },
+    // { name: "telegram", url: "https://t.me/LyraXLive" },
+    // { name: "linkedin", url: "https://linkedin.com/in/..." },
   ],
   shareLinks: [
     { name: "whatsapp", url: "https://wa.me/?text=" },
