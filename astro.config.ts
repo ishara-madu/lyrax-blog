@@ -20,7 +20,6 @@ import { transformerFileName } from "./src/utils/transformers/fileName";
 import config from "./astro-paper.config";
 
 export default defineConfig({
-  output: "static", // 👈 සයිට් එක ස්ටැටික් ලෙසම තබන්න
   site: config.site.url,
   image: {
     remotePatterns: [{ protocol: "https", hostname: "res.cloudinary.com" }],
