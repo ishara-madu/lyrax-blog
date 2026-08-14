@@ -24,11 +24,6 @@ export default defineConfig({
   output: "static",
   adapter: cloudflare({
     imageService: "cloudflare",
-    // ⚠️ අලුතින් මෙම කොටස ඇතුළත් කරන්න
-    platformProxy: {
-      experimentalJsonConfig: true,
-      persist: true
-    }
   }),
   site: config.site.url,
   image: {
