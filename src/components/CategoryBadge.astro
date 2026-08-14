@@ -1,0 +1,73 @@
+---
+import { getRelativeLocaleUrl } from "astro:i18n";
+import { slugifyStr } from "@/utils/slugify";
+import config from "@/config";
+
+type Props = {
+  category: string;
+  size?: "sm" | "md" | "lg";
+  clickable?: boolean;
+  class?: string;
+};
+
+const {
+  category = "General",
+  size = "sm",
+  clickable = true,
+  class: className = "",
+} = Astro.props;
+
+const locale = Astro.currentLocale ?? config.site.lang;
+const categorySlug = slugifyStr(category);
+
+// Category specific vibrant styles
+const categoryStyles: Record<string, string> = {
+  ai: "bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/25 hover:bg-purple-500/20",
+  tech: "bg-blue-500/10 text-blue-600 dark:text-blue-400 border-blue-500/25 hover:bg-blue-500/20",
+  entertainment: "bg-pink-500/10 text-pink-600 dark:text-pink-400 border-pink-500/25 hover:bg-pink-500/20",
+  gaming: "bg-emerald-500/10 text-emerald-600 dark:text-emerald-400 border-emerald-500/25 hover:bg-emerald-500/20",
+  finance: "bg-amber-500/10 text-amber-600 dark:text-amber-400 border-amber-500/25 hover:bg-amber-500/20",
+  crypto: "bg-yellow-500/10 text-yellow-600 dark:text-yellow-400 border-yellow-500/25 hover:bg-yellow-500/20",
+  viral: "bg-red-500/10 text-red-600 dark:text-red-400 border-red-500/25 hover:bg-red-500/20",
+  trends: "bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/25 hover:bg-orange-500/20",
+  sports: "bg-teal-500/10 text-teal-600 dark:text-teal-400 border-teal-500/25 hover:bg-teal-500/20",
+  lifestyle: "bg-rose-500/10 text-rose-600 dark:text-rose-400 border-rose-500/25 hover:bg-rose-500/20",
+};
+
+const defaultStyle =
+  "bg-accent/10 text-accent border-accent/25 hover:bg-accent/20";
+const activeStyle = categoryStyles[categorySlug] ?? defaultStyle;
+
+const sizeStyles = {
+  sm: "text-xs px-2.5 py-0.5 font-semibold",
+  md: "text-sm px-3 py-1 font-semibold",
+  lg: "text-base px-4 py-1.5 font-bold",
+};
+---
+
+{
+  clickable ? (
+    <a
+      href={getRelativeLocaleUrl(locale, `categories/${categorySlug}`)}
+      class:list={[
+        "inline-flex items-center gap-1 rounded-full border transition-all duration-200 uppercase tracking-wider",
+        activeStyle,
+        sizeStyles[size],
+        className,
+      ]}
+    >
+      <span>{category}</span>
+    </a>
+  ) : (
+    <span
+      class:list={[
+        "inline-flex items-center gap-1 rounded-full border uppercase tracking-wider",
+        activeStyle,
+        sizeStyles[size],
+        className,
+      ]}
+    >
+      <span>{category}</span>
+    </span>
+  )
+}

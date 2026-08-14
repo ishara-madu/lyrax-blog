@@ -5,22 +5,49 @@ import config from "@/config";
 
 export const BLOG_PATH = "src/content/posts";
 
+const optionalDate = z.preprocess(
+  val =>
+    val === "" || val === null || val === undefined
+      ? undefined
+      : typeof val === "string"
+        ? new Date(val)
+        : val,
+  z.date().optional()
+);
+
+const optionalString = z.preprocess(
+  val => (val === "" || val === null || val === undefined ? undefined : val),
+  z.string().optional()
+);
+
 const posts = defineCollection({
   loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: `./${BLOG_PATH}` }),
   schema: ({ image }) =>
     z.object({
       author: z.string().default(config.site.author),
-      pubDatetime: z.date(),
-      modDatetime: z.date().optional().nullable(),
+      pubDatetime: z.coerce.date(),
+      modDatetime: optionalDate.nullable(),
       title: z.string(),
-      featured: z.boolean().optional(),
-      draft: z.boolean().optional(),
+      featured: z.boolean().optional().default(false),
+      trending: z.boolean().optional().default(false),
+      category: z.string().default("General"),
+      coverImage: z.preprocess(
+        val =>
+          val === "" || val === null || val === undefined ? undefined : val,
+        image().or(z.string()).optional()
+      ),
+      readingTime: optionalString,
+      draft: z.boolean().optional().default(false),
       tags: z.array(z.string()).default(["others"]),
-      ogImage: image().or(z.string()).optional(),
+      ogImage: z.preprocess(
+        val =>
+          val === "" || val === null || val === undefined ? undefined : val,
+        image().or(z.string()).optional()
+      ),
       description: z.string(),
-      canonicalURL: z.string().optional(),
+      canonicalURL: optionalString,
       hideEditPost: z.boolean().optional(),
-      timezone: z.string().optional(),
+      timezone: optionalString,
     }),
 });
 
@@ -28,9 +55,9 @@ const pages = defineCollection({
   loader: glob({ pattern: "**/[^_]*.{md,mdx}", base: "./src/content/pages" }),
   schema: z.object({
     title: z.string(),
-    description: z.string().optional(),
-    ogImage: z.string().optional(),
-    canonicalURL: z.string().optional(),
+    description: optionalString,
+    ogImage: optionalString,
+    canonicalURL: optionalString,
   }),
 });
 

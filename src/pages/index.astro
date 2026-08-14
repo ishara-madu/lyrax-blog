@@ -6,26 +6,47 @@ import IconArrowRight from "@/assets/icons/IconArrowRight.svg";
 import Layout from "@/layouts/Layout.astro";
 import Header from "@/components/Header.astro";
 import Footer from "@/components/Footer.astro";
-import Socials from "@/components/Socials.astro";
 import Card from "@/components/Card.astro";
+import CategoryBadge from "@/components/CategoryBadge.astro";
 import LinkButton from "@/components/LinkButton.astro";
 import { getSortedPosts } from "@/utils/getSortedPosts";
-import { useTranslations } from "@/i18n";
+import { getPostUrl } from "@/utils/getPostPaths";
+import { toTransitionName } from "@/utils/toTransitionName";
+import Datetime from "@/components/Datetime.astro";
 import config from "@/config";
 
-const { socials, posts: postsConfig } = config;
+const { posts: postsConfig } = config;
 
 const locale = Astro.currentLocale ?? config.site.lang;
-const t = useTranslations(locale);
 
-const posts = await getCollection("posts");
+const posts = await getCollection("posts", ({ data }) => !data.draft);
 const sortedPosts = getSortedPosts(posts);
-const featuredPosts = sortedPosts.filter(({ data }) => data.featured);
-const recentPosts = sortedPosts.filter(({ data }) => !data.featured);
+const trendingPosts = sortedPosts.filter(({ data }) => data.trending);
+
+// Top spotlight story is either first trending or first sorted post
+const spotlightPost = trendingPosts[0] ?? sortedPosts[0];
+const remainingPosts = sortedPosts.filter(p => p.id !== spotlightPost?.id);
+
+let spotlightCoverImageUrl: string | undefined;
+if (typeof spotlightPost?.data?.coverImage === "string") {
+  spotlightCoverImageUrl = spotlightPost.data.coverImage;
+} else if (spotlightPost?.data?.coverImage?.src) {
+  spotlightCoverImageUrl = spotlightPost.data.coverImage.src;
+}
+
 const homePath = getRelativeLocaleUrl(locale, "");
+
+const popularCategories = [
+  { name: "Tech", slug: "tech" },
+  { name: "AI", slug: "ai" },
+  { name: "Entertainment", slug: "entertainment" },
+  { name: "Gaming", slug: "gaming" },
+  { name: "Finance", slug: "finance" },
+  { name: "Viral", slug: "viral" },
+];
 ---
 
-<Layout>
+<Layout title={`${config.site.title} | Trend Jacking, Viral Stories & Real-Time News`}>
   <Header />
   <main
     id="main-content"
@@ -33,95 +54,211 @@ const homePath = getRelativeLocaleUrl(locale, "");
     data-home-path={homePath}
     class="app-layout my-1"
   >
-    <section id="hero" class="border-border border-b pt-8 pb-6">
-      <h1 class="my-4 inline-block text-4xl font-bold sm:my-8 sm:text-5xl">
-        Mingalaba
-      </h1>
-      <a
-        target="_blank"
-        href={`${import.meta.env.BASE_URL.replace(/\/?$/, "/")}rss.xml`}
-        class="inline-block"
-        aria-label="RSS Feed"
-        title="RSS Feed"
-      >
-        <IconRss
-          width={20}
-          height={20}
-          class="stroke-accent scale-125 stroke-3 rtl:-rotate-90"
-        />
-        <span class="sr-only">RSS Feed</span>
-      </a>
+    <!-- Live Trending Ticker Bar -->
+    <div class="my-4 flex items-center gap-3 overflow-hidden rounded-xl border border-red-500/20 bg-red-500/5 px-4 py-2.5 text-sm">
+      <span class="inline-flex shrink-0 items-center gap-1.5 font-extrabold text-red-600 dark:text-red-400 uppercase tracking-wider text-xs">
+        <span class="relative flex size-2">
+          <span class="absolute inline-flex size-full animate-ping rounded-full bg-red-400 opacity-75" />
+          <span class="relative inline-flex size-2 rounded-full bg-red-500" />
+        </span>
+        Trending Now
+      </span>
+      <div class="text-muted-foreground truncate text-xs sm:text-sm">
+        {
+          sortedPosts.length > 0 ? (
+            <span class="font-medium text-foreground">
+              {spotlightPost?.data.title}
+            </span>
+          ) : (
+            <span>Tracking real-time viral trends & breaking topics...</span>
+          )
+        }
+      </div>
+    </div>
 
-      <p>
-        AstroPaper is a minimal, responsive, accessible and SEO-friendly Astro
-        blog theme. This theme follows best practices and provides accessibility
-        out of the box. Light and dark mode are supported by default. Moreover,
-        additional color schemes can also be configured.
-      </p>
-      <p class="mt-2">
-        Read the blog posts or check{" "}
-        <LinkButton
-          class="hover:text-accent underline decoration-dashed underline-offset-4"
-          href="https://github.com/satnaing/astro-paper#readme"
-        >
-          README
-        </LinkButton>{" "}
-        for more info.
-      </p>
-      {
-        socials.length > 0 && (
-          <div class="mt-4 flex max-sm:flex-col sm:items-center">
-            <div class="me-2 mb-1 whitespace-nowrap sm:mb-0">
-              {t.home.socialLinks}:
-            </div>
-            <Socials />
+    <!-- Hero Brand Section -->
+    <section id="hero" class="border-border border-b pt-6 pb-6">
+      <div class="flex flex-col justify-between gap-4 sm:flex-row sm:items-end">
+        <div>
+          <div class="mb-2 inline-flex items-center gap-2">
+            <span class="rounded-md bg-accent/10 px-2.5 py-1 text-xs font-bold uppercase tracking-widest text-accent">
+              Live Trend Radar
+            </span>
+            <a
+              target="_blank"
+              href={`${import.meta.env.BASE_URL.replace(/\/?$/, "/")}rss.xml`}
+              class="text-muted-foreground hover:text-accent inline-block transition-colors"
+              aria-label="RSS Feed"
+              title="RSS Feed"
+            >
+              <IconRss width={18} height={18} class="stroke-accent" />
+            </a>
           </div>
-        )
-      }
+          <h1 class="text-3xl font-black tracking-tight sm:text-5xl">
+            What's Trending, <span class="text-accent">Unfiltered.</span>
+          </h1>
+          <p class="text-muted-foreground mt-3 max-w-2xl text-base leading-relaxed sm:text-lg">
+            {config.site.description}
+          </p>
+        </div>
+      </div>
+
+      <!-- Quick Category Filter Bar -->
+      <div class="mt-6 flex flex-wrap items-center gap-2 pt-2">
+        <span class="text-muted-foreground text-xs font-semibold uppercase tracking-wider me-1">
+          Topics:
+        </span>
+        <a
+          href={getRelativeLocaleUrl(locale, "posts")}
+          class="rounded-full border border-border bg-muted/30 px-3 py-1 text-xs font-semibold uppercase tracking-wider text-foreground hover:border-accent hover:text-accent transition-all"
+        >
+          All
+        </a>
+        {popularCategories.map(cat => (
+          <a
+            href={getRelativeLocaleUrl(locale, `categories/${cat.slug}`)}
+            class="rounded-full border border-border/80 bg-background px-3 py-1 text-xs font-semibold uppercase tracking-wider text-muted-foreground hover:border-accent hover:text-accent hover:bg-muted/20 transition-all"
+          >
+            {cat.name}
+          </a>
+        ))}
+      </div>
     </section>
 
+    <!-- Hero Spotlight Story (if available) -->
     {
-      featuredPosts.length > 0 && (
-        <section
-          id="featured"
-          class:list={[
-            "pt-12 pb-6",
-            { "border-border border-b": recentPosts.length > 0 },
-          ]}
+      spotlightPost && (
+        <section id="spotlight" class="border-border border-b py-8">
+          <div class="mb-4 flex items-center justify-between">
+            <h2 class="text-xl font-bold tracking-tight uppercase text-accent flex items-center gap-2">
+              <span>⚡ Spotlight Story</span>
+            </h2>
+          </div>
+
+          <div class="group relative overflow-hidden rounded-2xl border border-border bg-gradient-to-br from-muted/30 via-background to-muted/10 p-6 transition-all duration-300 hover:border-accent/50 hover:shadow-lg sm:p-8">
+            {
+              spotlightCoverImageUrl && (
+                <a
+                  href={getPostUrl(spotlightPost.id, spotlightPost.filePath, locale)}
+                  class="mb-6 block overflow-hidden rounded-xl border border-border/50 bg-muted/20"
+                >
+                  <img
+                    src={spotlightCoverImageUrl}
+                    alt={spotlightPost.data.title}
+                    class="aspect-[21/9] max-h-80 w-full object-cover transition-transform duration-500 group-hover:scale-102"
+                    loading="eager"
+                  />
+                </a>
+              )
+            }
+
+            <div class="mb-3 flex flex-wrap items-center gap-2">
+              <CategoryBadge category={spotlightPost.data.category || "General"} size="sm" />
+              {spotlightPost.data.trending && (
+                <span class="inline-flex items-center gap-1 rounded-full border border-red-500/30 bg-red-500/10 px-2.5 py-0.5 text-xs font-bold text-red-600 uppercase tracking-wider dark:text-red-400">
+                  <span class="size-1.5 rounded-full bg-red-500 animate-pulse" />
+                  Trending #1
+                </span>
+              )}
+              {spotlightPost.data.readingTime && (
+                <span class="text-muted-foreground text-xs font-medium">
+                  • {spotlightPost.data.readingTime}
+                </span>
+              )}
+            </div>
+
+            <a
+              href={getPostUrl(spotlightPost.id, spotlightPost.filePath, locale)}
+              class="block"
+            >
+              <h3
+                style={{ viewTransitionName: toTransitionName(spotlightPost.id) }}
+                class="text-foreground group-hover:text-accent text-2xl font-black tracking-tight sm:text-3xl leading-snug transition-colors"
+              >
+                {spotlightPost.data.title}
+              </h3>
+            </a>
+
+            <p class="text-muted-foreground mt-3 line-clamp-3 text-base leading-relaxed">
+              {spotlightPost.data.description}
+            </p>
+
+            <div class="mt-4 flex items-center justify-between border-t border-border/60 pt-4">
+              <Datetime
+                pubDatetime={spotlightPost.data.pubDatetime}
+                modDatetime={spotlightPost.data.modDatetime}
+              />
+              <a
+                href={getPostUrl(spotlightPost.id, spotlightPost.filePath, locale)}
+                class="text-accent inline-flex items-center gap-1 text-sm font-bold hover:underline"
+              >
+                Read Story <IconArrowRight class="size-4" />
+              </a>
+            </div>
+          </div>
+        </section>
+      )
+    }
+
+    <!-- Latest Trending & Breaking Feed -->
+    {
+      remainingPosts.length > 0 && (
+        <section id="trending-feed" class="pt-8 pb-6">
+          <div class="flex items-center justify-between mb-2">
+            <h2 class="text-2xl font-bold tracking-tight">
+              Latest Trending Stories
+            </h2>
+            <a
+              href={getRelativeLocaleUrl(locale, "posts")}
+              class="text-accent text-sm font-semibold hover:underline flex items-center gap-1"
+            >
+              View All <IconArrowRight class="size-3.5 inline-block" />
+            </a>
+          </div>
+          <ul>
+            {remainingPosts.slice(0, postsConfig.perIndex).map(data => (
+              <Card variant="h3" {...data} />
+            ))}
+          </ul>
+        </section>
+      )
+    }
+
+    <!-- Empty state if no posts yet -->
+    {
+      sortedPosts.length === 0 && (
+        <section class="my-12 rounded-2xl border border-dashed border-border p-12 text-center">
+          <h2 class="text-2xl font-bold">Stay Tuned!</h2>
+          <p class="text-muted-foreground mt-2 max-w-md mx-auto">
+            Fresh trending stories and breaking viral coverage are on their way.
+          </p>
+        </section>
+      )
+    }
+
+    <!-- Explore Categories CTA Section -->
+    <section class="my-10 rounded-2xl border border-accent/20 bg-accent/5 p-6 text-center sm:p-8">
+      <h2 class="text-xl font-extrabold sm:text-2xl">
+        Never Miss What’s Viral
+      </h2>
+      <p class="text-muted-foreground mt-2 text-sm sm:text-base">
+        Explore in-depth topics across AI, Tech breakthroughs, Entertainment, and Finance.
+      </p>
+      <div class="mt-5 flex flex-wrap justify-center gap-3">
+        <LinkButton
+          href={getRelativeLocaleUrl(locale, "categories")}
+          class="rounded-xl border border-accent bg-accent text-accent-foreground px-5 py-2.5 font-bold hover:opacity-90 transition-opacity"
         >
-          <h2 class="text-2xl font-semibold tracking-wide">
-            {t.home.featured}
-          </h2>
-          <ul>
-            {featuredPosts.map(data => (
-              <Card variant="h3" {...data} />
-            ))}
-          </ul>
-        </section>
-      )
-    }
-
-    {
-      recentPosts.length > 0 && (
-        <section id="recent-posts" class="pt-12 pb-6">
-          <h2 class="text-2xl font-semibold tracking-wide">
-            {t.home.recentPosts}
-          </h2>
-          <ul>
-            {recentPosts.slice(0, postsConfig.perIndex).map(data => (
-              <Card variant="h3" {...data} />
-            ))}
-          </ul>
-        </section>
-      )
-    }
-
-    <div class="my-8 text-center">
-      <LinkButton href={getRelativeLocaleUrl(locale, "posts")}>
-        {t.home.allPosts}
-        <IconArrowRight class="inline-block rtl:-rotate-180" />
-      </LinkButton>
-    </div>
+          Explore All Categories
+        </LinkButton>
+        <LinkButton
+          href={getRelativeLocaleUrl(locale, "posts")}
+          class="rounded-xl border border-border bg-background px-5 py-2.5 font-semibold hover:border-accent transition-colors"
+        >
+          Browse All Stories
+        </LinkButton>
+      </div>
+    </section>
   </main>
   <Footer />
 </Layout>

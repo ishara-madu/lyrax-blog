@@ -3,6 +3,7 @@ import type { CollectionEntry } from "astro:content";
 import { getPostUrl } from "@/utils/getPostPaths";
 import { toTransitionName } from "@/utils/toTransitionName";
 import Datetime from "./Datetime.astro";
+import CategoryBadge from "./CategoryBadge.astro";
 
 type Props = {
   variant?: "h2" | "h3";
@@ -10,22 +11,87 @@ type Props = {
 
 const { variant: Heading = "h2", id, data, filePath } = Astro.props;
 
-const { title, description, ...props } = data;
+const {
+  title,
+  description,
+  category,
+  trending,
+  readingTime,
+  coverImage,
+  ...props
+} = data;
+
+const postUrl = getPostUrl(id, filePath, Astro.currentLocale);
+
+let coverImageUrl: string | undefined;
+if (typeof coverImage === "string") {
+  coverImageUrl = coverImage;
+} else if (coverImage?.src) {
+  coverImageUrl = coverImage.src;
+}
 ---
 
-<li class="my-6">
-  <a
-    href={getPostUrl(id, filePath, Astro.currentLocale)}
-    class:list={[
-      "text-accent inline-block text-lg font-medium",
-      "decoration-dashed underline-offset-4 hover:underline",
-      "focus-visible:no-underline focus-visible:underline-offset-0",
-    ]}
-  >
-    <Heading transition:name={toTransitionName(id)}>
-      {title}
-    </Heading>
-  </a>
-  <Datetime {...props} />
-  <p>{description}</p>
+<li
+  class="group border-border bg-background/50 hover:border-accent/40 hover:bg-muted/15 my-5 rounded-2xl border p-5 transition-all duration-300 sm:p-6"
+>
+  <div class:list={["flex flex-col gap-4", { "sm:flex-row sm:items-center sm:gap-6": coverImageUrl }]}>
+    {
+      coverImageUrl && (
+        <a
+          href={postUrl}
+          class="shrink-0 overflow-hidden rounded-xl border border-border/50 bg-muted/20 sm:w-52 sm:h-36 block"
+          tabindex="-1"
+          aria-hidden="true"
+        >
+          <img
+            src={coverImageUrl}
+            alt={title}
+            class="size-full object-cover transition-transform duration-300 group-hover:scale-105"
+            loading="lazy"
+          />
+        </a>
+      )
+    }
+
+    <div class="flex-1 min-w-0">
+      <div class="mb-3 flex flex-wrap items-center gap-2">
+        {category && <CategoryBadge category={category} size="sm" />}
+        {
+          trending && (
+            <span class="inline-flex items-center gap-1 rounded-full border border-red-500/30 bg-red-500/10 px-2.5 py-0.5 text-xs font-bold text-red-600 uppercase tracking-wider dark:text-red-400">
+              <span class="relative flex size-2">
+                <span class="absolute inline-flex size-full animate-ping rounded-full bg-red-400 opacity-75" />
+                <span class="relative inline-flex size-2 rounded-full bg-red-500" />
+              </span>
+              Trending
+            </span>
+          )
+        }
+        {
+          readingTime && (
+            <span class="text-muted-foreground text-xs font-medium">
+              • {readingTime}
+            </span>
+          )
+        }
+      </div>
+
+      <a
+        href={postUrl}
+        class="text-foreground group-hover:text-accent inline-block text-xl font-bold tracking-tight transition-colors duration-200 sm:text-2xl"
+      >
+        <Heading transition:name={toTransitionName(id)}>
+          {title}
+        </Heading>
+      </a>
+
+      <div class="my-2">
+        <Datetime {...props} />
+      </div>
+
+      <p class="text-muted-foreground line-clamp-2 text-sm leading-relaxed sm:text-base">
+        {description}
+      </p>
+    </div>
+  </div>
 </li>

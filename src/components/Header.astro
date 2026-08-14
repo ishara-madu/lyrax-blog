@@ -12,7 +12,7 @@ import { stripBase, stripLocale } from "@/utils/withBase";
 import { useTranslations } from "@/i18n";
 import config from "@/config";
 
-const { site, features } = config;
+const { features } = config;
 
 const locale = Astro.currentLocale ?? config.site.lang;
 const t = useTranslations(locale);
@@ -50,9 +50,9 @@ const isActive = (path: string) => {
   >
     <a
       href={getRelativeLocaleUrl(locale, "")}
-      class="absolute py-1 text-xl leading-8 font-semibold whitespace-nowrap sm:static sm:my-auto sm:text-2xl sm:leading-none"
+      class="group absolute py-1 text-2xl font-black tracking-tighter whitespace-nowrap sm:static sm:my-auto sm:text-3xl sm:leading-none"
     >
-      {site.title}
+      <span>Lyra</span><span class="text-accent transition-transform duration-300 group-hover:scale-110">X</span>
     </a>
     <nav
       id="nav-menu"
@@ -74,6 +74,14 @@ const isActive = (path: string) => {
         id="menu-items"
         class="[&>li>a]:hover:text-accent mt-4 hidden w-44 grid-cols-2 place-content-center gap-2 sm:mt-0 sm:flex sm:w-auto sm:gap-x-5 sm:gap-y-0 sm:[&>li]:h-8 [&>li>a]:block [&>li>a]:px-4 [&>li>a]:py-3 [&>li>a]:text-center [&>li>a]:font-medium sm:[&>li>a]:px-2 sm:[&>li>a]:py-1"
       >
+        <li class="col-span-2">
+          <a
+            href={getRelativeLocaleUrl(locale, "categories")}
+            class:list={{ "active-nav": isActive("/categories") }}
+          >
+            Categories
+          </a>
+        </li>
         <li class="col-span-2">
           <a
             href={getRelativeLocaleUrl(locale, "posts")}

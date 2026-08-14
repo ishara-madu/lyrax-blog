@@ -1,0 +1,58 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="noindex" />
+    <title>LyraX Content Manager</title>
+    <!-- Cloudinary Upload Widget (Unsigned direct upload - No Cloudinary login needed) -->
+    <script src="https://upload-widget.cloudinary.com/latest/global/all.js"></script>
+  </head>
+  <body>
+    <!-- Decap CMS Application -->
+    <script src="https://unpkg.com/decap-cms@^3.0.0/dist/decap-cms.js"></script>
+    <script>
+      (function () {
+        if (window.CMS && window.cloudinary) {
+          window.CMS.registerMediaLibrary({
+            name: "cloudinary-unsigned",
+            init: function (options) {
+              var handleInsert = options.handleInsert;
+              var config = (options && options.options && options.options.config) ? options.options.config : {};
+              var cloudName = config.cloud_name || "dakgoguue";
+              var uploadPreset = config.upload_preset || "ml_default";
+
+              return {
+                show: function (params) {
+                  params = params || {};
+                  var allowMultiple = !!params.allowMultiple;
+                  var myWidget = window.cloudinary.createUploadWidget(
+                    {
+                      cloudName: cloudName,
+                      uploadPreset: uploadPreset,
+                      sources: ["local", "url", "camera", "unsplash"],
+                      multiple: allowMultiple,
+                      defaultSource: "local",
+                      showAdvancedOptions: false,
+                      cropping: false,
+                    },
+                    function (error, result) {
+                      if (!error && result && result.event === "success") {
+                        handleInsert(result.info.secure_url);
+                      }
+                    }
+                  );
+                  myWidget.open();
+                },
+                hide: function () {},
+                enableStandalone: function () {
+                  return false;
+                },
+              };
+            },
+          });
+        }
+      })();
+    </script>
+  </body>
+</html>

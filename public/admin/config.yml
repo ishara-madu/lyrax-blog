@@ -1,0 +1,92 @@
+backend:
+  name: github
+  repo: ishara-madu/lyrax-blog
+  branch: main
+  base_url: https://lyrax.live
+  auth_endpoint: api/auth
+
+# Enable local backend proxy for offline / local testing (via `pnpm run cms:proxy`)
+local_backend: true
+
+# Media / Asset upload folder (fallback for local storage)
+media_folder: "public/images"
+public_folder: "/images"
+
+# Cloudinary Direct Upload (No Cloudinary Login Needed)
+media_library:
+  name: cloudinary-unsigned
+  config:
+    cloud_name: dakgoguue
+    upload_preset: lyrax-blog # Create/set an Unsigned Upload Preset in Cloudinary Settings -> Upload
+
+# Slug configuration
+slug:
+  encoding: "ascii"
+  clean_accents: true
+  sanitize_replacement: "-"
+
+collections:
+  # ==========================================
+  # Posts Collection
+  # ==========================================
+  - name: "posts"
+    label: "Posts"
+    label_singular: "Post"
+    folder: "src/content/posts"
+    create: true
+    slug: "{{slug}}"
+    preview_path: "posts/{{slug}}"
+    editor:
+      preview: true
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Publish Date", name: "pubDatetime", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ss[Z]", date_format: "YYYY-MM-DD", time_format: "HH:mm", picker_utc: true }
+      - { label: "Modified Date", name: "modDatetime", widget: "datetime", format: "YYYY-MM-DDTHH:mm:ss[Z]", date_format: "YYYY-MM-DD", time_format: "HH:mm", picker_utc: true, required: false }
+      - { label: "Author", name: "author", widget: "string", default: "LyraX Editorial" }
+      - {
+          label: "Category",
+          name: "category",
+          widget: "select",
+          options: [
+            "General",
+            "AI",
+            "Tech",
+            "Entertainment",
+            "Gaming",
+            "Finance",
+            "Crypto",
+            "Viral",
+            "Trends",
+            "Sports",
+            "Lifestyle"
+          ],
+          default: "General"
+        }
+      - { label: "Description", name: "description", widget: "text", hint: "Short summary used for SEO and previews" }
+      - { label: "Featured Post", name: "featured", widget: "boolean", default: false, required: false }
+      - { label: "Trending Post", name: "trending", widget: "boolean", default: false, required: false }
+      - { label: "Draft", name: "draft", widget: "boolean", default: false, required: false }
+      - { label: "Tags", name: "tags", widget: "list", default: ["trends"], required: false }
+      - { label: "Reading Time", name: "readingTime", widget: "string", hint: "e.g. 4 min read", required: false }
+      - { label: "Cover Image", name: "coverImage", widget: "image", required: false }
+      - { label: "OG / Social Image", name: "ogImage", widget: "image", required: false }
+      - { label: "Canonical URL", name: "canonicalURL", widget: "string", required: false }
+      - { label: "Hide Edit Post Link", name: "hideEditPost", widget: "boolean", default: false, required: false }
+      - { label: "Timezone", name: "timezone", widget: "string", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
+
+  # ==========================================
+  # Pages Collection (About, etc.)
+  # ==========================================
+  - name: "pages"
+    label: "Pages"
+    label_singular: "Page"
+    folder: "src/content/pages"
+    create: true
+    slug: "{{slug}}"
+    fields:
+      - { label: "Title", name: "title", widget: "string" }
+      - { label: "Description", name: "description", widget: "text", required: false }
+      - { label: "OG / Social Image", name: "ogImage", widget: "image", required: false }
+      - { label: "Canonical URL", name: "canonicalURL", widget: "string", required: false }
+      - { label: "Body", name: "body", widget: "markdown" }
