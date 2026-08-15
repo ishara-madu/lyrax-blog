@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "astro dev",
     "cms:proxy": "decap-server",
-    "build": "astro build && pagefind --site dist && cp -r dist/pagefind public/",
+    "build": "astro build && pagefind --site dist && cp -r dist/pagefind public/ && npx google-indexing-script --key google-key.json --sitemap https://lyrax.live",
     "preview": "astro preview",
     "sync": "astro sync",
     "astro": "astro",
@@ -24,6 +24,7 @@
     "@tailwindcss/vite": "^4.3.2",
     "astro": "^7.2.2",
     "dayjs": "^1.11.21",
+    "google-indexing-script": "^0.4.0",
     "lodash.kebabcase": "^4.1.1",
     "rehype-callouts": "^2.2.0",
     "remark-collapse": "^0.1.2",
