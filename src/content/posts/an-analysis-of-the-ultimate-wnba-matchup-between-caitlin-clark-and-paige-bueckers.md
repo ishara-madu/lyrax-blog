@@ -2,6 +2,7 @@
 title: An analysis of the ultimate WNBA matchup between Caitlin Clark and Paige
   Bueckers
 pubDatetime: 2026-08-15T01:55:00.000Z
+modDatetime: 2026-08-15T03:12:00Z
 author: Ishara M.
 category: Sports
 description: Here's a full breakdown of the exciting game between the Indiana
@@ -26,6 +27,7 @@ tags:
   - WNBA live stream
   - WNBA trend jacking
   - hoops analysis
+readingTime: 6 min
 coverImage: https://res.cloudinary.com/dakgoguue/image/upload/v1786759603/gpiwgv3zjtpb0nsirx7c.png
 ogImage: https://res.cloudinary.com/dakgoguue/image/upload/v1786759603/gpiwgv3zjtpb0nsirx7c.png
 hideEditPost: false
