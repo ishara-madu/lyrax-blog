@@ -1,7 +1,7 @@
 ---
 title: "Indonesia Earthquake 2026: Magnitude 7.7 Hits Indonesia's Flores Sea
   Region, Tsunamis Advised"
-pubDatetime: 2026-08-15T03:09:00Z
+pubDatetime: 2026-08-15T03:09:00.000Z
 author: Ishara M.
 category: General
 description: The Indonesian region of the Flores Sea was rocked by an earthquake
@@ -22,7 +22,7 @@ tags:
   - breaking news
   - USGS
   - world news
-readingTime: "5"
+readingTime: 5 min
 coverImage: https://res.cloudinary.com/dakgoguue/image/upload/v1786762848/g4aylcoipprd5cq5pfej.png
 ogImage: https://res.cloudinary.com/dakgoguue/image/upload/v1786762848/g4aylcoipprd5cq5pfej.png
 hideEditPost: false
