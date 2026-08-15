@@ -29,14 +29,15 @@ export default defineConfig({
     mdx(),
     sitemap({
       filter: (page) => {
-        // Archives පිටුව සඳහා දැනට පවතින නීතිය
+        // 1. Archives පිටුව සඳහා දැනට පවතින නීතිය (config අගය අනුව)
         const showArchives = config.features?.showArchives !== false || !page.endsWith("/archives/");
 
-        // ටැග් සහ කැටගරි පිටු සයිට්මැප් එකෙන් ඉවත් කිරීමේ නීතිය
+        // 2. ටැග් සහ කැටගරි පිටු සම්පූර්ණයෙන්ම හඳුනා ගැනීම
         const isTagOrCategory = page.includes('/tags/') || page.includes('/categories/');
 
+        // Archives පෙන්විය යුතු නම් සහ එය ටැග්/කැටගරි පිටුවක් නොවේ නම් පමණක් සයිට්මැප් එකට ගන්න
         return showArchives && !isTagOrCategory;
-      },
+      }
     }),
   ],
   i18n: {
