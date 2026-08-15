@@ -14,6 +14,7 @@ export default defineAstroPaperConfig({
     timezone: "UTC",
     dir: "ltr",
     googleVerification: "", // Add Google Search Console verification meta tag token here when ready
+    monetagVerification: "565009f190e6b002d4cba6295f8847da",
   },
   posts: {
     perPage: 6,

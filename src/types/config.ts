@@ -21,6 +21,8 @@ interface SiteConfig {
   dir?: "ltr" | "rtl" | "auto";
   /** Google Search Console verification meta tag value */
   googleVerification?: string;
+  /** Monetag site verification meta tag value */
+  monetagVerification?: string;
 }
 
 interface PostsConfig {
@@ -117,7 +119,7 @@ type ResolvedSiteConfig = Required<
     | "ogImage"
   >
 > &
-  Pick<SiteConfig, "profile" | "authorFull" | "googleVerification">;
+  Pick<SiteConfig, "profile" | "authorFull" | "googleVerification" | "monetagVerification">;
 
 export interface ResolvedAstroPaperConfig {
   site: ResolvedSiteConfig;

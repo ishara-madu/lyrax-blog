@@ -108,6 +108,14 @@ const rssHref = getRelativeLocaleUrl(
         />
       )
     }
+    {
+      site.monetagVerification && (
+        <meta
+          name="monetag"
+          content={site.monetagVerification}
+        />
+      )
+    }
 
     <!--
       Inline FOUC-prevention script: sets data-theme on <html> before
