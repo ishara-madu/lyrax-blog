@@ -26,8 +26,8 @@ tags:
   - WNBA live stream
   - WNBA trend jacking
   - hoops analysis
-coverImage: https://res.cloudinary.com/dakgoguue/image/upload/v1786759158/szsna2lnaemebjpcbdhm.png
-ogImage: https://res.cloudinary.com/dakgoguue/image/upload/v1786759158/szsna2lnaemebjpcbdhm.png
+coverImage: https://res.cloudinary.com/dakgoguue/image/upload/v1786759603/gpiwgv3zjtpb0nsirx7c.png
+ogImage: https://res.cloudinary.com/dakgoguue/image/upload/v1786759603/gpiwgv3zjtpb0nsirx7c.png
 hideEditPost: false
 ---
 # The Caitlin Clark versus Paige Bueckers showdown: All the details about the biggest WNBA game of the season
