@@ -28,8 +28,15 @@ export default defineConfig({
   integrations: [
     mdx(),
     sitemap({
-      filter: page =>
-        config.features?.showArchives !== false || !page.endsWith("/archives/"),
+      filter: (page) => {
+        // Archives පිටුව සඳහා දැනට පවතින නීතිය
+        const showArchives = config.features?.showArchives !== false || !page.endsWith("/archives/");
+
+        // ටැග් සහ කැටගරි පිටු සයිට්මැප් එකෙන් ඉවත් කිරීමේ නීතිය
+        const isTagOrCategory = page.includes('/tags/') || page.includes('/categories/');
+
+        return showArchives && !isTagOrCategory;
+      },
     }),
   ],
   i18n: {
