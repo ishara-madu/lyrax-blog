@@ -1,6 +1,8 @@
 # build output
 dist/
 
+google-key.json
+
 # generated types
 .astro/
 
