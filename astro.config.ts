@@ -11,6 +11,7 @@ import { unified } from "@astrojs/markdown-remark";
 import remarkToc from "remark-toc";
 import remarkCollapse from "remark-collapse";
 import rehypeCallouts from "rehype-callouts";
+import { rehypeImageOptimizer } from "./src/utils/transformers/rehypeImageOptimizer";
 import {
   transformerNotationDiff,
   transformerNotationHighlight,
@@ -44,7 +45,7 @@ export default defineConfig({
         remarkToc,
         [remarkCollapse, { test: "Table of contents" }],
       ],
-      rehypePlugins: [rehypeCallouts],
+      rehypePlugins: [rehypeCallouts, rehypeImageOptimizer],
     }),
     shikiConfig: {
       themes: { light: "min-light", dark: "night-owl" },

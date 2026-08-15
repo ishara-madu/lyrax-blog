@@ -4,6 +4,7 @@ import { getPostUrl } from "@/utils/getPostPaths";
 import { toTransitionName } from "@/utils/toTransitionName";
 import Datetime from "./Datetime.astro";
 import CategoryBadge from "./CategoryBadge.astro";
+import OptimizedImage from "./OptimizedImage.astro";
 import config from "@/config";
 
 type Props = {
@@ -24,30 +25,25 @@ const {
 } = data;
 
 const postUrl = getPostUrl(id, filePath, Astro.currentLocale);
-
-let coverImageUrl: string | undefined;
-if (typeof coverImage === "string") {
-  coverImageUrl = coverImage;
-} else if (coverImage?.src) {
-  coverImageUrl = coverImage.src;
-}
 ---
 
 <li
   class="group border-border bg-background/50 hover:border-accent/40 hover:bg-muted/15 my-5 rounded-2xl border p-5 transition-all duration-300 sm:p-6"
 >
-  <div class:list={["flex flex-col gap-4", { "sm:flex-row sm:items-center sm:gap-6": coverImageUrl }]}>
+  <div class:list={["flex flex-col gap-4", { "sm:flex-row sm:items-center sm:gap-6": coverImage }]}>
     {
-      coverImageUrl && (
+      coverImage && (
         <a
           href={postUrl}
           class="shrink-0 overflow-hidden rounded-xl border border-border/50 bg-muted/20 sm:w-52 sm:h-36 block"
           tabindex="-1"
           aria-hidden="true"
         >
-          <img
-            src={coverImageUrl}
+          <OptimizedImage
+            src={coverImage}
             alt={title}
+            widths={[320, 480, 640]}
+            sizes="(max-width: 640px) 100vw, 320px"
             class="size-full object-cover transition-transform duration-300 group-hover:scale-105"
             loading="lazy"
           />

@@ -16,6 +16,8 @@ import ShareLinks from "./_components/ShareLinks.astro";
 import BackButton from "./_components/BackButton.astro";
 import BackToTopButton from "./_components/BackToTopButton.astro";
 import AdjacentPostNav from "./_components/AdjacentPostNav.astro";
+import OptimizedImage from "@/components/OptimizedImage.astro";
+import { resolveImageUrl } from "@/utils/imageOptimizer";
 import config from "@/config";
 
 export async function getStaticPaths() {
@@ -82,22 +84,8 @@ const {
 
 const { Content } = await render(post);
 
-let coverImageUrl: string | undefined;
-if (typeof coverImage === "string") {
-  coverImageUrl = coverImage;
-} else if (coverImage?.src) {
-  coverImageUrl = coverImage.src;
-}
-
-let ogImageUrl: string | undefined;
-
-if (typeof initOgImage === "string") {
-  ogImageUrl = initOgImage;
-} else if (initOgImage?.src) {
-  ogImageUrl = initOgImage.src;
-} else if (coverImageUrl) {
-  ogImageUrl = coverImageUrl;
-}
+const coverImageUrl = resolveImageUrl(coverImage);
+let ogImageUrl = resolveImageUrl(initOgImage) ?? coverImageUrl;
 
 if (!ogImageUrl && config.features.dynamicOgImage) {
   const postUrl = getPostUrl(post.id, post.filePath, locale).replace(
@@ -184,11 +172,13 @@ const ogImage = ogImageUrl
     </div>
 
     {
-      coverImageUrl && (
+      coverImage && (
         <div class="my-6 overflow-hidden rounded-2xl border border-border bg-muted/20 shadow-sm">
-          <img
-            src={coverImageUrl}
+          <OptimizedImage
+            src={coverImage}
             alt={title}
+            widths={[480, 768, 1024, 1400]}
+            sizes="(max-width: 768px) 100vw, 1200px"
             class="h-auto max-h-[520px] w-full object-cover"
             loading="eager"
             fetchpriority="high"
