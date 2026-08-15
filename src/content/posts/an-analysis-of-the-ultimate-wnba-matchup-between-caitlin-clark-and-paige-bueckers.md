@@ -1,7 +1,7 @@
 ---
 title: An analysis of the ultimate WNBA matchup between Caitlin Clark and Paige
   Bueckers
-pubDatetime: 2026-08-15T01:55:00Z
+pubDatetime: 2026-08-15T01:55:00.000Z
 author: Ishara M.
 category: Sports
 description: Here's a full breakdown of the exciting game between the Indiana
@@ -26,6 +26,8 @@ tags:
   - WNBA live stream
   - WNBA trend jacking
   - hoops analysis
+coverImage: https://res.cloudinary.com/dakgoguue/image/upload/v1786759158/szsna2lnaemebjpcbdhm.png
+ogImage: https://res.cloudinary.com/dakgoguue/image/upload/v1786759158/szsna2lnaemebjpcbdhm.png
 hideEditPost: false
 ---
 # The Caitlin Clark versus Paige Bueckers showdown: All the details about the biggest WNBA game of the season
