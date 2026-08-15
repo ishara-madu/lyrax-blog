@@ -8,7 +8,7 @@
   "scripts": {
     "dev": "astro dev",
     "cms:proxy": "decap-server",
-    "build": "astro build && pagefind --site dist && cp -r dist/pagefind public/ && npx google-indexing-script --key google-key.json --sitemap https://lyrax.live",
+    "build": "astro build && pagefind --site dist && cp -r dist/pagefind public/ && npx google-indexing-script --sitemap https://lyrax.live",
     "preview": "astro preview",
     "sync": "astro sync",
     "astro": "astro",
