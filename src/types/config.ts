@@ -23,6 +23,8 @@ interface SiteConfig {
   googleVerification?: string;
   /** Monetag site verification meta tag value */
   monetagVerification?: string;
+  /** Monetag Vignette Banner Zone ID */
+  monetagVignetteZone?: string;
 }
 
 interface PostsConfig {
@@ -119,7 +121,7 @@ type ResolvedSiteConfig = Required<
     | "ogImage"
   >
 > &
-  Pick<SiteConfig, "profile" | "authorFull" | "googleVerification" | "monetagVerification">;
+  Pick<SiteConfig, "profile" | "authorFull" | "googleVerification" | "monetagVerification" | "monetagVignetteZone">;
 
 export interface ResolvedAstroPaperConfig {
   site: ResolvedSiteConfig;

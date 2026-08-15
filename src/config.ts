@@ -20,6 +20,7 @@ const config: ResolvedAstroPaperConfig = {
     googleVerification:
       userConfig.site.googleVerification || PUBLIC_GOOGLE_SITE_VERIFICATION,
     monetagVerification: userConfig.site.monetagVerification,
+    monetagVignetteZone: userConfig.site.monetagVignetteZone,
   },
   posts: {
     perPage: userConfig.posts?.perPage ?? 4,
