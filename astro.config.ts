@@ -35,10 +35,14 @@ export default defineConfig({
         // 2. ටැග් සහ කැටගරි පිටු සම්පූර්ණයෙන්ම හඳුනා ගැනීම
         const isTagOrCategory = page.includes('/tags/') || page.includes('/categories/');
 
-        // Archives පෙන්විය යුතු නම් සහ එය ටැග්/කැටගරි පිටුවක් නොවේ නම් පමණක් සයිට්මැප් එකට ගන්න
-        return showArchives && !isTagOrCategory;
+        // 3. ඇඩ්මින් (Admin) පිටු හඳුනා ගැනීම
+        const isAdminPage = page.includes('/admin/') || page.startsWith('admin/') || page.endsWith('/admin');
+
+        // Archives පෙන්විය යුතු නම්, එය ටැග්/කැටගරි හෝ ඇඩ්මින් පිටුවක් නොවේ නම් පමණක් සයිට්මැප් එකට ගන්න
+        return showArchives && !isTagOrCategory && !isAdminPage;
       }
     }),
+
   ],
   i18n: {
     locales: ["en"],
